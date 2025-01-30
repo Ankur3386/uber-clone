@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "uber clone",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ankur3386/uberClone.git"
+  },
+  "author": "Ankur Deep",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ankur3386/uberClone/issues"
+  },
+  "homepage": "https://github.com/Ankur3386/uberClone#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  }
+}
