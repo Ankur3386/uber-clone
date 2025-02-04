@@ -33,14 +33,19 @@ userSchema.methods.generateAuthToken=function(){
         {
             _id:this._id
         },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+         { expiresIn: '24h' }
     )
 }
 userSchema.methods.comparePassword= async function (password){
    return await  bcrypt.compare(password,this.password )
 }
-userSchema.statics.hashPassword =async function(){
+userSchema.statics.hashPassword =async function(password){
+    if (!password) {
+        throw new Error("Password is required for hashing");
+    }
+
     return await bcrypt.hash(password,10)
 }
-const userModel=mongoose.model(user,userSchema)
+const userModel=mongoose.model('userModel',userSchema)
 module.exports =userModel
