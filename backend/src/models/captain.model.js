@@ -33,7 +33,7 @@ const captainSchema = new mongoose.Schema({
         default:'Inactive'
     },
     vehicle:{
-       vechicleType:{
+       vehicleType:{
          type:String,
          required:true,
         enum:['motorcycle','car','auto'],
@@ -73,12 +73,12 @@ captainSchema.methods.generateAuthToken =async function(){
         {expiresIn:'24h'}
     )
 }
-captainSchema.statics.hashPassword= async function (passsword){
+captainSchema.statics.hashPassword= async function (password){
     if (!password) {
         throw new Error("Password is required for hashing");
     }
 
-    return await bcrypt.hash(passsword,10)
+    return await bcrypt.hash(password,10)
 }
 const captainModel = mongoose.model('captainModel',captainSchema)
 module.exports= captainModel;

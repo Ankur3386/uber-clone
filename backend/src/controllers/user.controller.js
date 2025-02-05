@@ -11,6 +11,10 @@ const blacklistToken = require('../models/blacklistToken.model.js')
     console.log(errors.array(),"shows errors")
     console.log("Request Body:", req.body);
 const{fullname,email,password}=req.body;
+const userExist =await userModel.findOne({email});
+if(userExist){
+    return res.staus(400).json({message:'user already exist'})
+  }
 const hashedPassword = await userModel.hashPassword(password);
 
 const user = await userService.createUser({
