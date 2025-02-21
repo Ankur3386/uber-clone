@@ -16,7 +16,7 @@ const UserLogin = () => {
       password:password
     })
     //TODO check if current value is printing
-    console.log(userData.email);
+   // console.log(userData.email);
     //noow as default behaviour is cancelled so it will not refreshed we want after submit the field spaece become empty and as default behaviour removed so or value will be shown in c.log and we can access it from there 
     setEmail('')
     setPassword('')

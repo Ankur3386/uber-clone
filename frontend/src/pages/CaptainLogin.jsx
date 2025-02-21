@@ -16,8 +16,8 @@ const CaptainLogin = () => {
         email:email,
         password:password
       })
-      //TODO check if current value is printing
-      console.log(captainData)
+      //TODO check if current value is printing .we can use Effect hook as problem is sue to ASYNCHRONOUS NATURE OF JAVASCRIPT
+      //console.log(captainData)
       //noow as default behaviour is cancelled so it will not refreshed we want after submit the field spaece become empty and as default behaviour removed so or value will be shown in c.log and we can access it from there 
       setEmail('')
       setPassword('')
