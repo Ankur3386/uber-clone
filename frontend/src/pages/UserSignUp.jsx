@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+
+import UserContext from '../context/UserContext'
 
 const UserSignUp = () => {
   //lets perform double binding
@@ -9,15 +11,27 @@ const UserSignUp = () => {
   const [firstName,setFirstName]=useState('')
   const [lastName, setLastName] =useState('')
   const [userData,setUserData]=useState({})
-  const submithandler=(e)=>{
+  const navigate =useNavigate()
+  //taking user and setUser out of context from Usercontext
+  const [user,setUser]=React.useContext(UserContext)
+  const submithandler=async(e)=>{
     e.preventDefault()
-    setUserData({
+    const newUser ={
       fullName:{firstName,
-      lastName,},
+      lastName},
       email,
       password
 
-    })
+    }
+    // newUser that we are getting we wanrt to post in the backend as we aree going to use url at multiple place and if we to change so we will write int in the env file and import it 
+    const response =await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`,newUser)
+    if(response.status===201){
+      const data =response.data
+      setUser(data.user)
+      //if user is saved than he will be navigated to home
+      navigate('/home')
+    }
+
     //if we are printing in console previous value is printed it is due to asynchronous nature of javascript so to solve it we can use useEffect hook
    // console.log(userData.username)
 
