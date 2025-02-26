@@ -16,11 +16,11 @@ export const UserDataContext = createContext()
         
     })
   return (
-    <div>
+  
         <UserDataContext.Provider value ={{user,setUser}}>
         {children}
         </UserDataContext.Provider>
-        </div>
+  
   )
 }
 

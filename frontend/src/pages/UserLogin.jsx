@@ -1,20 +1,33 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { UserDataContext } from '../context/UserContext.jsx';
+import axios from 'axios'
 const UserLogin = () => {
   //two way binding we will use so that user data can be used 1 setstate in their location set value and target them .two way binding use so that react know that what our values are
   const[email,setEmail]=useState('')
   const[password,setPassword]=useState('')
   const [userData,setUserData]=useState({})
   //on submit our page got reload so if we c.log our data than it will come and disappear within secondsso
-  const submithandler=(e)=>{
+ const {user,setUser}=useContext(UserDataContext)
+ 
+ const navigate =useNavigate()
+
+  const submithandler=async(e)=>{
     //e used as in form  we passes value e and we recieve it here 
 
     e.preventDefault();//used as form default behaviour is that on Submit it get refreshed so due to it it will not be refreshed
    
-    setUserData({
+    const userData={
       email:email,
       password:password
-    })
+    }
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/login`,userData)
+    if (response.status==200){
+      const data=response.data
+      setUser(data.user)
+      localStorage.setItem('token',data.token)
+      navigate('/home')
+    }
     //TODO check if current value is printing
    // console.log(userData.email);
     //noow as default behaviour is cancelled so it will not refreshed we want after submit the field spaece become empty and as default behaviour removed so or value will be shown in c.log and we can access it from there 

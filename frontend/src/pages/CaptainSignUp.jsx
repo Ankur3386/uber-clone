@@ -1,6 +1,9 @@
 
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+
+import { Link,useNavigate } from 'react-router-dom'
+import { CaptainDataContex } from '../context/CaptainContex'
+import axios from 'axios'
 const CaptainSignUp = () => {
   
     //lets perform double binding
@@ -8,16 +11,41 @@ const CaptainSignUp = () => {
     const [password,setPassword]=useState('')
     const [firstName,setFirstName]=useState('')
     const [lastName, setLastName] =useState('')
-    const [captainData,setCaptainData]=useState({})
-    const submithandler=(e)=>{
+   
+    const [vehicleColor,setVehicleColor] =useState('')
+    const [vehiclePlate,setVehiclePlate] =useState('')
+    const [vehicleCapacity,setVehicleCapacity] =useState('')
+    const [vehicleType,setVehicleType] =useState('')
+
+    const {captain,setCaptain} =useContext(CaptainDataContex)
+    const navigate=useNavigate()
+    const submithandler=async(e)=>{
       e.preventDefault()
-      setCaptainData({
-        fullName:{firstName,
-        lastName,},
+    const captainData ={
+        fullname:{
+          firstname:firstName,
+        lastname:lastName
+      },
         email,
-        password
+        password,
+        vehicle:{
+          color:vehicleColor,
+          vehicleType:vehicleType,
+          plate:vehiclePlate,
+          capacity:vehicleCapacity
+        }
   
-      })
+      }
+     
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/register`,captainData)
+     
+      if(response.status==201){
+        const data =response.data
+       
+        setCaptain(data.captain)
+        localStorage.setItem('token',data.token)
+        navigate('/captain-home')
+      }
       //if we are printing in console previous value is printed it is due to asynchronous nature of javascript so to solve it we can use useEffect hook
      // console.log(captainData.username)
   
@@ -26,6 +54,10 @@ const CaptainSignUp = () => {
       setLastName('')
   
       setPassword('')
+      setVehicleCapacity('')
+      setVehicleColor('')
+      setVehiclePlate('')
+      setVehicleType('')
     }
     return (
       <div className='p-7  justify-between h-screen'>
@@ -67,7 +99,56 @@ const CaptainSignUp = () => {
           onChange={(e)=>{
             setPassword(e.target.value)
           }} />
-          <button className=' w-full bg-black flex items-center justify-center text-white py-3 rounded mt-5'>Create Account</button>
+          
+          <h3 className='text-lg font-medium mb-2'>Vehicle Information</h3>
+          <div className='flex gap-4 mb-7'>
+            <input
+              required
+              className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
+              type="text"
+              placeholder='Vehicle Color'
+              value={vehicleColor}
+              onChange={(e) => {
+                setVehicleColor(e.target.value)
+              }}
+            />
+            <input
+              required
+              className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
+              type="text"
+              placeholder='Vehicle Plate'
+              value={vehiclePlate}
+              onChange={(e) => {
+                setVehiclePlate(e.target.value)
+              }}
+            />
+          </div>
+          <div className='flex gap-4 mb-7'>
+            <input
+              required
+              className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
+              type="number"
+              placeholder='Vehicle Capacity'
+              value={vehicleCapacity}
+              onChange={(e) => {
+                setVehicleCapacity(e.target.value)
+              }}
+            />
+            <select
+              required
+              className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
+              value={vehicleType}
+              onChange={(e) => {
+                setVehicleType(e.target.value)
+              }}
+            >
+              <option value="" disabled>Select Vehicle Type</option>
+              <option value="car">Car</option>
+              <option value="auto">Auto</option>
+              <option value="moto">Moto</option>
+            </select>
+          </div>
+          <button className=' w-full bg-black flex items-center justify-center text-white py-3 rounded mt-5'>Create Captain Account</button>
           </form>
           <p className='text-center'>Already have account? <Link to="/captain-login"className='text-blue-600'>Login</Link></p>
   

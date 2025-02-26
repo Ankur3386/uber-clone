@@ -1,34 +1,36 @@
 
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-import UserContext from '../context/UserContext'
+import { UserDataContext } from '../context/UserContext.jsx';
+import axios from 'axios';
 
 const UserSignUp = () => {
   //lets perform double binding
   const[email,setEmail] =useState('')
   const [password,setPassword]=useState('')
-  const [firstName,setFirstName]=useState('')
-  const [lastName, setLastName] =useState('')
+  const [firstname,setFirstName]=useState('')
+  const [lastname, setLastName] =useState('')
   const [userData,setUserData]=useState({})
   const navigate =useNavigate()
   //taking user and setUser out of context from Usercontext
-  const [user,setUser]=React.useContext(UserContext)
+  const {user,setUser}=useContext(UserDataContext)
   const submithandler=async(e)=>{
     e.preventDefault()
     const newUser ={
-      fullName:{firstName,
-      lastName},
+      fullname:{firstname,
+      lastname},
       email,
       password
 
     }
     // newUser that we are getting we wanrt to post in the backend as we aree going to use url at multiple place and if we to change so we will write int in the env file and import it 
-    const response =await axios.post(`${import.meta.env.VITE_BASE_URL}/user/register`,newUser)
+    const response =await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,newUser)
     if(response.status===201){
       const data =response.data
       setUser(data.user)
       //if user is saved than he will be navigated to home
+      localStorage.setItem('token',data.token)
       navigate('/home')
     }
 
@@ -53,13 +55,13 @@ const UserSignUp = () => {
       <h3 className='text-base font-medium mb-2'>Enter your Name</h3>
       <div className='flex gap-4 mb-6 '>
       <input  className ="rounded bg-gray-200 px-4 py-2 w-full placeholder:text-base" required placeholder='FirstName' 
-      value={firstName}
+      value={firstname}
       onChange={(e)=>{
         setFirstName(e.target.value)
       }} />
       
       <input  className ="rounded bg-gray-200 px-4 py-2 w-full placeholder:text-base " required placeholder='LastName' 
-        value={lastName}
+        value={lastname}
         onChange={(e)=>{
           setLastName(e.target.value)
         }} />

@@ -1,22 +1,34 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { CaptainDataContex } from '../context/CaptainContex'
+import axios from 'axios'
 
 const CaptainLogin = () => {
     //two way binding we will use so that user data can be used 1 setstate in their location set value and target them .two way binding use so that react know that what our values are
     const[email,setEmail]=useState('')
     const[password,setPassword]=useState('')
-    const [captainData,setCaptainData]=useState({})
+    
+    const navigate =useNavigate()
+    const {captain,setCaptain}=useContext( CaptainDataContex)
     //on submit our page got reload so if we c.log our data than it will come and disappear within secondsso
-    const submithandler=(e)=>{
+    
+    const submithandler=async(e)=>{
       //e used as in form  we passes value e and we recieve it here 
   
       e.preventDefault();//used as form default behaviour is that on Submit it get refreshed so due to it it will not be refreshed
      
-      setCaptainData({
+    const captain ={
         email:email,
         password:password
-      })
-      //TODO check if current value is printing .we can use Effect hook as problem is sue to ASYNCHRONOUS NATURE OF JAVASCRIPT
+      }
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/login`,captain)
+      if(response.status==201){
+        const data =response.data
+        setCaptain(data.captain)
+        localStorage.setItem('token',data.token)
+        navigate('/captain-home')
+      }
+       //TODO check if current value is printing .we can use Effect hook as problem is sue to ASYNCHRONOUS NATURE OF JAVASCRIPT
       //console.log(captainData)
       //noow as default behaviour is cancelled so it will not refreshed we want after submit the field spaece become empty and as default behaviour removed so or value will be shown in c.log and we can access it from there 
       setEmail('')
