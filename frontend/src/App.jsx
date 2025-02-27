@@ -9,6 +9,8 @@ import Start from './pages/Start'
 import UserLogout from './pages/UserLogout.jsx'
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import CaptainHome from './pages/CaptainHome.jsx'
+import CaptainProtectwrapper from './pages/CaptainProtectwrapper.jsx'
+//use"" when writting path
 
 const App = () => {
   return (
@@ -28,7 +30,11 @@ const App = () => {
           <UserProtectedWrapper>
           <UserLogout/>
         </UserProtectedWrapper>}/>
-        <Route path='/ca'ptain-home element={<CaptainHome/>}/>
+        
+        <Route path="/captain-home" element={
+          <CaptainProtectwrapper>
+          <CaptainHome/>
+          </CaptainProtectwrapper>}/>
       </Routes>
     </div>
   )

@@ -16,9 +16,7 @@ app.use(cookieParser())
 connectDB();
 
 
-app.get('/home',(req,res)=>{
-    res.send("Hello ankur")
-})
+
 app.use('/users',userRoutes)
 app.use('/captain',captainRoutes)
 module.exports =app

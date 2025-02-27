@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+
 import { CaptainDataContex } from '../context/CaptainContex'
 import axios from 'axios'
 
@@ -8,7 +9,7 @@ const CaptainLogin = () => {
     const[email,setEmail]=useState('')
     const[password,setPassword]=useState('')
     
-    const navigate =useNavigate()
+    const navigate = useNavigate()
     const {captain,setCaptain}=useContext( CaptainDataContex)
     //on submit our page got reload so if we c.log our data than it will come and disappear within secondsso
     
