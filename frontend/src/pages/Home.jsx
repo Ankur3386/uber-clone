@@ -4,6 +4,9 @@ import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
 
 import LocationSearchPanel from '../components/LocationSearchPanel'
+import VehiclePanel from '../components/VehiclePanel'
+import ConfirmedRide from '../components/ConfirmedRide'
+import LookingForDriver from '../components/LookingForDriver'
 function Home() {
   const[pickup,setPickup] =useState('')
   const [destination,setDestination] =useState('')
@@ -11,6 +14,12 @@ function Home() {
   //we want to name that div so we will use useRef
   const panelRef =useRef(null)
   const panelClosRef = useRef(null)
+  const vehicleFoundRef = useRef(null)
+  const [vehiclePanel,setVehiclePanel] =useState(false)
+  const vehiclePanelRef=useRef(null)
+  const confirmedRidePanelRef=useRef(null)
+  const [confirmRidePanel,setConfirmRidePanel] =useState(false)
+  const [vehicleFound,setVehicleFound] =useState(false)
   const submitHandler=(e)=>{
     e.preventDefault()
 
@@ -34,6 +43,36 @@ function Home() {
        })
     }
   },[panelOpen])
+  useGSAP(function(){
+    if(vehiclePanel){
+    gsap.to(vehiclePanelRef.current,{
+      transform:'translateY(0)'
+    })}else{
+     gsap.to(vehiclePanelRef.current,{
+      transform:'translateY(100%)'
+     })
+    }
+  },[vehiclePanel])
+  useGSAP(function(){
+    if(confirmRidePanel){
+    gsap.to(confirmedRidePanelRef.current,{
+      transform:'translateY(0)'
+    })}else{
+     gsap.to(confirmedRidePanelRef.current,{
+      transform:'translateY(100%)'
+     })
+    }
+  },[confirmRidePanel])
+  useGSAP(function(){
+    if(vehicleFound){
+    gsap.to(vehicleFoundRef.current,{
+      transform:'translateY(0)'
+    })}else{
+     gsap.to(vehicleFoundRef.current,{
+      transform:'translateY(100%)'
+     })
+    }
+  },[vehicleFound])
   return (
     <div className='h-screen  relative overflow-hidden'>
       <img className='w-16 left-5 top-5 absolute' src="https://tse1.mm.bing.net/th?id=OIP.urDlKG711lNKyMH7KldZqQHaEK&pid=Api&P=0&h=180" alt="" />
@@ -74,34 +113,20 @@ function Home() {
           className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3' type="text" placeholder='Add you Destination ' />
         </form></div>
         <div ref ={panelRef} className='h-[70%] bg-white'>
-     <LocationSearchPanel/>
+     <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel}/>
         </div>
       </div>
-      <div className=' fixed z-10 bottom-0 p-3 py-6 bg-white w-full'>
-        <h3 className='text-2xl font-semibold mb-3'>choose a vehicle</h3>
-        <div className='flex w-full items-center border-black rounded-xl justify-between'>
-          <img  className=' h-10'src="https://tse1.mm.bing.net/th?id=OIP.90_IXyFPb47LZ_AYAe1ylAHaEK&pid=Api&P=0&h=180" alt="" />
-          <div className=' w-1/2'>
-            <h4 className='font-medium   flex  display-inline text-sm'>UberGo <span className=' display-inline'> <img className='h-5 flex display-inline' src="https://cdn-icons-png.flaticon.com/128/456/456212.png" alt="" /> 4</span></h4>
-            <h5>2 mins away</h5>
-            <p className='font-medium text-base text-gray-400'>Afforadable compact rides</p>
-          </div>
-          <h2 className='text-2xl font-bold'>$193.20</h2>
-        </div>
+
+      <div ref={vehiclePanelRef}className=' fixed z-10 bottom-0  p-3 py-10 pt-12 translate-y-full bg-white w-full'>
+     <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel}/>
 
       </div>
-      <div className=' fixed z-10 bottom-0 p-3 py-6 bg-white w-full'>
-        <h3 className='text-2xl font-semibold mb-3'>choose a vehicle</h3>
-        <div className='flex w-full items-center border-black rounded-xl justify-between'>
-          <img  className=' h-10'src="https://tse1.mm.bing.net/th?id=OIP.90_IXyFPb47LZ_AYAe1ylAHaEK&pid=Api&P=0&h=180" alt="" />
-          <div className=' w-1/2'>
-            <h4 className='font-medium   flex  display-inline text-sm'>UberGo <span className=' display-inline'> <img className='h-5 flex display-inline' src="https://cdn-icons-png.flaticon.com/128/456/456212.png" alt="" /> 4</span></h4>
-            <h5>2 mins away</h5>
-            <p className='font-medium text-base text-gray-400'>Afforadable compact rides</p>
-          </div>
-          <h2 className='text-2xl font-bold'>$193.20</h2>
-        </div>
 
+      <div ref={confirmedRidePanelRef}className=' fixed z-10 bottom-0  p-3 py-6 pt-12 translate-y-full bg-white w-full'>
+    <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+      </div>
+      <div ref={vehicleFoundRef} className=' fixed z-10 bottom-0  p-3 py-6 pt-12 translate-y-full bg-white w-full'>
+   <LookingForDriver />
       </div>
     </div>
   )
