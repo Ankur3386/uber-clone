@@ -1,10 +1,10 @@
 import React from 'react'
 
-function LookingForDriver() {
+function LookingForDriver(props) {
   return (
     <div>
     <h5 className='p-1  w-[93%] absolute  flex  justify-center text-center top-0 ' onClick={()=>{
-   props.setVehiclePanel(true)
+   props.setVehicleFound(false)
  }}>
      <img  className='h-5 text-gray-500 bold-image  ' src="https://img.icons8.com/?size=100&id=39786&format=png" alt="" />
      </h5>

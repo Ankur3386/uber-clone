@@ -7,6 +7,7 @@ import LocationSearchPanel from '../components/LocationSearchPanel'
 import VehiclePanel from '../components/VehiclePanel'
 import ConfirmedRide from '../components/ConfirmedRide'
 import LookingForDriver from '../components/LookingForDriver'
+import WaitingForDriver from '../components/WaitingForDriver'
 function Home() {
   const[pickup,setPickup] =useState('')
   const [destination,setDestination] =useState('')
@@ -17,9 +18,11 @@ function Home() {
   const vehicleFoundRef = useRef(null)
   const [vehiclePanel,setVehiclePanel] =useState(false)
   const vehiclePanelRef=useRef(null)
+  const WaitingForDriverRef=useRef(null)
   const confirmedRidePanelRef=useRef(null)
   const [confirmRidePanel,setConfirmRidePanel] =useState(false)
   const [vehicleFound,setVehicleFound] =useState(false)
+  const [waitingForDriver,setWaitingForDriver] =useState(false)
   const submitHandler=(e)=>{
     e.preventDefault()
 
@@ -73,6 +76,16 @@ function Home() {
      })
     }
   },[vehicleFound])
+  useGSAP(function(){
+    if(waitingForDriver){
+    gsap.to(WaitingForDriverRef.current,{
+      transform:'translateY(0)'
+    })}else{
+     gsap.to(WaitingForDriverRef.current,{
+      transform:'translateY(100%)'
+     })
+    }
+  },[waitingForDriver])
   return (
     <div className='h-screen  relative overflow-hidden'>
       <img className='w-16 left-5 top-5 absolute' src="https://tse1.mm.bing.net/th?id=OIP.urDlKG711lNKyMH7KldZqQHaEK&pid=Api&P=0&h=180" alt="" />
@@ -126,7 +139,10 @@ function Home() {
     <ConfirmedRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={vehicleFoundRef} className=' fixed z-10 bottom-0  p-3 py-6 pt-12 translate-y-full bg-white w-full'>
-   <LookingForDriver />
+   <LookingForDriver setVehicleFound={setVehicleFound}/>
+      </div>
+      <div  ref={WaitingForDriverRef} className=' fixed z-10 bottom-0  p-3 py-6 pt-12 translate-y-full bg-white w-full'>
+     <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
       </div>
     </div>
   )
