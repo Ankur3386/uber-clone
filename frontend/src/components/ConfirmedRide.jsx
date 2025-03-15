@@ -10,7 +10,8 @@ function ConfirmedRide(props) {
           </h5>
           <h3 className='text-2xl font-semibold mb-3'>Confirm your Ride </h3>
          <div className='flex gap-2 justify-between items-center flex-col'>
-             <img className='h-23' src="https://tse1.mm.bing.net/th?id=OIP.90_IXyFPb47LZ_AYAe1ylAHaEK&pid=Api&P=0&h=180" alt="" /></div>
+             <img className='h-23' src="https://tse1.mm.bing.net/th?id=OIP.90_IXyFPb47LZ_AYAe1ylAHaEK&pid=Api&P=0&h=180" alt="" />
+            
          <div className='w-full mt-5'>
         <div className='flex items-center gap-5 p-3 border-b-2'>
             <img  className='h-9'src="https://static.vecteezy.com/system/resources/previews/000/280/087/original/location-pin-map-pin-flat-icon-vector-design.jpg" alt="" />
@@ -32,7 +33,7 @@ function ConfirmedRide(props) {
             <h3 className='text-lg font-medium'>$193</h3>
             <p className='text-sm -mt-1 text-gray-600'>Cash </p>
           </div>
-      
+          </div>
          </div>
          <button onClick={()=>{
             props.setVehicleFound(true)

@@ -123,7 +123,7 @@ function Home() {
            onChange={(e)=>{
            setDestination(e.target.value)
            }} 
-          className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3' type="text" placeholder='Add you Destination ' />
+          className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3' type="text" placeholder='Enter your Destination ' />
         </form></div>
         <div ref ={panelRef} className='h-[70%] bg-white'>
      <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel}/>

@@ -10,6 +10,8 @@ import UserLogout from './pages/UserLogout.jsx'
 import UserProtectedWrapper from './pages/UserProtectedWrapper'
 import CaptainHome from './pages/CaptainHome.jsx'
 import CaptainProtectwrapper from './pages/CaptainProtectwrapper.jsx'
+import Riding from './pages/Riding.jsx'
+import CaptainRiding from './pages/CaptainRiding.jsx'
 //use"" when writting path
 
 const App = () => {
@@ -19,6 +21,8 @@ const App = () => {
         <Route path="/" element={<Start/>}/>
         <Route path="/login" element={<UserLogin/>}/>
         <Route path="/signup" element={<UserSignUp/>}/>
+        <Route path="/riding" element={<Riding/>}/>
+        <Route path="/captain-riding" element={<CaptainRiding/>}/>
         <Route path="/captain-login" element={<CaptainLogin/>}/>
         <Route path="/captain-signup" element={<CaptainSignUp/>}/>
         <Route path= "/home" element ={

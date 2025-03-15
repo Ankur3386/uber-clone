@@ -154,7 +154,7 @@ const CaptainSignUp = () => {
   
         </div>
         <div  >
-  <p className='text-[10px] m-10'> This website uses third party advertising cookies to serve you relevant ads. You may opt-out from these third party ad cookies by clicking the “Opt-out” button below. If you have an Uber account, you may opt-out of the “sale” or “sharing” of your data here.</p>
+  <p className='text-[10px] mt-8 m-10'> This website uses third party advertising cookies to serve you relevant ads. You may opt-out from these third party ad cookies by clicking the “Opt-out” button below. If you have an Uber account, you may opt-out of the “sale” or “sharing” of your data here.</p>
         </div>
       </div>
     )

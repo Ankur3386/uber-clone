@@ -1,9 +1,9 @@
 import React ,{useContext, useEffect, useState}from 'react'
-
+import axios from 'axios'
 import {  useNavigate } from 'react-router-dom'
 import { CaptainDataContex } from '../context/CaptainContex'
 import { header } from 'express-validator'
-function CaptainProtectwrapper() {
+function CaptainProtectwrapper({children}) {
 const {captain,setCaptain} =useContext(CaptainDataContex)
    const [isLoading,setIsLoading] =useState(true)
     const navigate = useNavigate()
@@ -16,12 +16,12 @@ const {captain,setCaptain} =useContext(CaptainDataContex)
   },[token])
   //our profile need token
   //here we are bringing the data because if user comes in captain login and try to login he willbwe able to login as we are only schecking on the basis of token so to solve it we are bringing data  axios and if data comes that he is valid captain as we are bringing data by using  token and if data is comming that means toke is valid so the we will render the children otherwise redirect to captain-login page
-  axios.get(`${import.meta.env.VITE_BASE_URL}/captains/profile`,{
+  axios.get(`${import.meta.env.VITE_BASE_URL}/captain/profile`,{
     headers:{
       Authorization:`Bearer ${token}`
     }
   }).then((response)=>{
-    if(response.status==200){
+    if(response.status==201){
       setCaptain(response.data.captain)
       setIsLoading(false)
     }
