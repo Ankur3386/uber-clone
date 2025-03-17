@@ -42,7 +42,6 @@ module.exports.getDistanceTime = async (req, res, next) => {
             return res.status(404).json({ message: "Unable to fetch coordinates for given locations" });
         }
 
-        console.log("Ankur3");
 
         // Get distance and time
         const distanceTime = await mapService.getDistanceAndTime(originCoords, destinationCoords);
