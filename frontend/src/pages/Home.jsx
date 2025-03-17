@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react'
 //gsap is an animation library it provide useGSAP with which we can perform animation to use it download npmi gsap and npm i @gsap/react
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
-
+import axios from 'axios'
 import LocationSearchPanel from '../components/LocationSearchPanel'
 import VehiclePanel from '../components/VehiclePanel'
 import ConfirmedRide from '../components/ConfirmedRide'
@@ -23,10 +23,46 @@ function Home() {
   const [confirmRidePanel,setConfirmRidePanel] =useState(false)
   const [vehicleFound,setVehicleFound] =useState(false)
   const [waitingForDriver,setWaitingForDriver] =useState(false)
+  const [pickUpSuggestions,setPickUpSuggestions] =useState([])
+  const [destinationSuggestions,setDestinationSuggestions] =useState([])
+  const [activeField,setActiveField] =useState(null)
+  const handlePickUpChange=async(e)=>{
+    setPickup(e.target.value)
+    try {
+  const response= await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestination`,
+     {params:{input:e.target.value},
+    headers:{
+      Authorization:`Bearer ${localStorage.getItem('token')}`
+    
+    }})
+    setPickUpSuggestions(response.data)
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+  
+  const handleDestinationChange=async(e)=>{
+    setDestination(e.target.value)
+    try {
+  const response= await axios.get(`${import.meta.env.VITE_BASE_URL}/maps/get-suggestination`,
+     {params:{input:e.target.value},
+    headers:{
+      Authorization:`Bearer ${localStorage.getItem('token')}`
+    
+    }})
+    setDestinationSuggestions(response.data)
+    } catch (error) {
+      console.log(error)
+
+    }
+  }
+  
   const submitHandler=(e)=>{
     e.preventDefault()
 
   }
+  
   useGSAP(function(){
     if(panelOpen){
       //for panelOpen value=true
@@ -109,24 +145,30 @@ function Home() {
           <input
           onClick={()=>{
             setPanelOpen(true)
+            setActiveField('pickup')
           }}
           value={pickup}
-          onChange={(e)=>{
-          setPickup(e.target.value)
-          }}
+          onChange={handlePickUpChange}
           className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-5' type="text" placeholder='Add a pickup location ' />
           <input
           onClick={()=>{
             setPanelOpen(true)
+            setActiveField('destination')
           }}
            value={destination}
-           onChange={(e)=>{
-           setDestination(e.target.value)
-           }} 
+           onChange={handleDestinationChange}
           className='bg-[#eee] px-12 py-2 text-base rounded-lg w-full mt-3' type="text" placeholder='Enter your Destination ' />
         </form></div>
         <div ref ={panelRef} className='h-[70%] bg-white'>
-     <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel}/>
+     <LocationSearchPanel
+
+suggestions={activeField === 'pickup' ? pickUpSuggestions : destinationSuggestions}
+setPanelOpen={setPanelOpen}
+setVehiclePanel={setVehiclePanel}
+setPickup={setPickup}
+setDestination={setDestination}
+activeField={activeField}
+       />
         </div>
       </div>
 
